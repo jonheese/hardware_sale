@@ -8,6 +8,7 @@ table.header	{ margin: 5px; }
 li		{ margin: 10px; }
 a.plain		{ text-decoration: none; }
 @page		{ size: landscape; }
+@media print	{ @page	{ size: letter landscape; margin: 0px; } }
 
 .footer		{ margin: 30px 0px 8px 0px; text-align: center; font-size: 0.73em; font-color: #eeeeee; }
 .page           { margin: 2em auto; width: 85%; border: 5px solid #ccc;
