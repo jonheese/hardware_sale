@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+{% block body %}
+  {% if error %}<p class="error"><strong>Error:</strong> {{ error }}{% endif %}
+  <center><h2>Devices available in {{ sale_name }}</h2></center>
+  <table border=0 cellpadding='5' width='100%' class='datatable'>
+    <tr><th>Device Name</th><th>Device Description</th><th>Type</th><th>Quantity</th><th>Buyers</th><th>Price</th><th></th><th></th></tr>
+  {% for device in sale_details %}
+    <tr><td>{{ device[2] }}</td><td>{{ device[3] }}</td><td align='center'>{{ device[4] }}</td><td align='center'>{{ device[1] }}</td><td align='center'>{{ device[5] }}</td><td align='center'>${{ device[6] }}</td><td align='center'><a href='{{ url_for('show_bucket', sale_id=sale_id, device_id=device[0]) }}'>Show bucket</a></td><td><a href='{{ url_for('remove_device_from_sale', sale_id=sale_id, device_id=device[0]) }}'>Remove</a></td></tr>
+  {% else %}
+    <tr><td colspan='2'><em>No items in this sale.</em></td></tr>
+  {% endfor %}
+  </table>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+{% block body %}
+  {% if error %}<p class="error"><strong>Error:</strong> {{ error }}{% endif %}
+  <center><h2>Bucket members for device {{ device_name }} in {{ sale_name }}</h2></center>
+  <table border=0 cellpadding='5' width='100%' class='datatable'>
+    <tr><th align='left'>User Email</th></th><th></th></tr>
+  {% for member in bucket_members %}
+    <tr><td>{{ member[1] }}</td><!--<td align='center'><a href='\{\{ url_for('remove_bucket_member', sale_id=sale_id, device_id=device_id, user_id=member[0]) \}\}'>Remove from bucket</a></td>--></tr>
+  {% else %}
+    <tr><td colspan='2'><em>Nobody in this bucket.</em></td></tr>
+  {% endfor %}
+  </table>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+{% block body %}
+  {% if error %}<p class="error"><strong>Error:</strong> {{ error }}{% endif %}
+  <center><h2>Sale Report for {{ sale_name }}</h2></center>
+  <center><font size='1'><a href='javascript:window.print()'>Print this page</a></font></center>
+  <table border=0 cellpadding='5' width='100%' class='datatable'>
+    <tr><th>Device Name</th><th>Type</th><th>Quantity</th><th>Buyers</th><th>Price</th></tr>
+  {% for sale_report in sale_reports %}
+    <tr><td>{{ sale_report[0][0] }}</td><td align='center'>{{ sale_report[0][2] }}</td><td align='center'>{{ sale_report[0][3] }}</td><td align='center'>
+    {% for user_name in sale_report[1] %}
+      {{ user_name }}<br />
+    {% endfor %}
+    </td><td align='center'>${{ sale_report[0][4] }}</td></tr>
+  {% else %}
+    <tr><td colspan='2'><em>No items in this sale. </em></td></tr>
+  {% endfor %}
+  </table>
+{% endblock %}

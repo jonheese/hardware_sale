@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+{% block body %}
+  <center><h2>Active Hardware Sales</h2></center>
+  <table border=0 cellpadding='5' width='100%' class='datatable'>
+    <tr><th>Name</th><th>Date</th></tr>
+  {% for sale in sales %}
+    <tr><td><a href='/sale/{{ sale[0] }}'>{{ sale[1] }}</a></td><td align='center'>{{ sale[2] }}</td></tr>
+  {% else %}
+    <tr><td colspan='2'><em>No active sales currently. </em></td></tr>
+  {% endfor %}
+  </table>
+{% endblock %}

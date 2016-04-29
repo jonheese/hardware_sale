@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+{% block body %}
+  {% if error %}<p class="error"><strong>Error:</strong> {{ error }}{% endif %}
+  <center><h2>Confirm delete</h2></center>
+  <table cellspacing='20'>
+    <tr><td><b>{{ message }}</b><br />
+    <tr><td><form>
+      <input type='hidden' name='{{ name1 }}' value='{{ value1 }}' />
+      <input type='hidden' name='{{ name2 }}' value='{{ value2 }}' />
+      <input type='submit' value='Delete' />
+    </form></td></tr>
+  </table>
+{% endblock %}

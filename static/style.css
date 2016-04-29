@@ -1,0 +1,28 @@
+body            { font-family: sans-serif; background: #eee; -webkit-print-color-adjust: exact; }
+a, h1, h2       { color: #066CAA; }
+h1, h2          { font-family: 'Trebuchet MS', 'IrisUPC', sans-serif; margin: 0; }
+h1              { font-size: 2.2em;}
+h2              { font-size: 1.2em; }
+table.datatable tr:nth-child(even) { background-color: #dcdcdc; }
+table.header	{ margin: 5px; }
+li		{ margin: 10px; }
+a.plain		{ text-decoration: none; }
+@page		{ size: landscape; }
+
+.footer		{ margin: 30px 0px 8px 0px; text-align: center; font-size: 0.73em; font-color: #eeeeee; }
+.page           { margin: 2em auto; width: 85%; border: 5px solid #ccc;
+                  padding: 0.8em; background: white; }
+.metanav        { text-align: right; font-size: 0.8em; padding: 0.3em;
+                  margin-bottom: 1em; background: #eeeeee; }
+.message        { background: #CEE5F5; padding: 0.5em;
+                  border: 1px solid #AACBE2; }
+.add-sale	{ font-size: 0.9em; }
+.error          { background: #F0D6D6; padding: 0.5em; }
+.italic		{ font-weight: normal; font-style: italic; font-size: 0.7em; }
+.admin_block	{ border-style: solid; border-width: 2px; border-color: #cccccc; float: left; margin: 1% 1% 1% 1%; padding: 5px; }
+.one-quarter	{ width: 22%; }
+.one-half	{ width: 47%; }
+.three-quarters	{ width: 72%; }
+.whole		{ width: 97%; }
+.clear_block	{ clear: both; }
+.container	{ width: 100%; margin: auto; }

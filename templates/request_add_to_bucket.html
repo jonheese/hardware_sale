@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+{% block body %}
+<center><h2>Request bucket add for '{{ device_name }}' in '{{ sale_name }}'</h2></center>
+  <form method='POST' action="{{ url_for('confirm_email') }}">
+    <table border=0 cellpadding='5' width='100%'>
+      <tr><td width='350'>Please enter your <b>viawest.com</b> email address:</td><td><input type='text' name='user_email' /></tr>
+      <tr>
+        <td colspan='2'><b>IMPORTANT NOTES:</b>
+          <ul>
+            <li><b>This process is final!</b>  You cannot change your mind once you confirm your entry.
+            <li>All payment must be received by <b>{{ close_date }}</b> or your item(s) will be forfeited and <em>you will be <b>banned</b> from future sales</em></li>
+            <li>We only accept <b>personal checks</b> made out to ViaWest.</li>
+            <li>You will receive an email at {{ sale_date }} informing you whether you were selected to purchase this item or not.</li>
+            <li>Devices will be physically allocated to selected buyers on a <em>first-come-first-serve</em> basis, starting promptly at the sale time ({{ sale_date }})</li>
+            <li>All servers and storage come with no disks.</li>
+            <li>All servers come with whatever RAM is physically installed.</li>
+            <li>All devices come with no (extenral) cables and no warranty.</li>
+            <li>The number of power supplies listed for each server type defines how many power supply <em>slots</em> are present -- they may or may not all have power supplies installed.</li>
+          </ul>
+        </td>  
+      <tr><td colspan='2'><input type='submit' value='I have read and I agree to all of the above rules' /></tr>
+    </table>
+    <input type='hidden' name='device_id' value='{{ device_id }}' />
+    <input type='hidden' name='sale_id' value='{{ sale_id }}' />
+  </form>
+{% endblock %}

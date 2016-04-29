@@ -1,0 +1,20 @@
+<!doctype html>
+<title>INetU Hardware Sale</title>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+<div class="page">
+  <table cellspacing='5' class='header'><tr><td><a href='/'><img src="{{ url_for('static', filename='Logo_40.png') }}" /></a></td>
+  <td><a class='plain' href='/'><h1>Hardware Sale</h1></a></td></tr></table>
+  <div class="metanav">
+    <a href='/'>home</a> |
+  {% if not session.logged_in %}
+    <a href="{{ url_for('login') }}">log in</a>
+  {% else %}
+    <a href='{{ url_for('admin_page') }}'>admin</a> | <a href="{{ url_for('logout') }}">log out</a>
+  {% endif %}
+  </div>
+  {% for category,message in get_flashed_messages(with_categories=true) %}
+    <div class="{{ category }}">{{ message }}</div>
+  {% endfor %}
+  {% block body %}{% endblock %}
+  <div class='footer'>All source code is available for review in <a href='https://gitlab.inetu.org/jheese/hardware_sale/'>Gitlab</a></div>
+</div>
