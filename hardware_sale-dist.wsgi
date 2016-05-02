@@ -1,4 +1,4 @@
 import sys
 sys.stdout = sys.stderr
-sys.path.append('/var/www/hardware_sale/')
+sys.path.append('/path/to/webapp/')
 from hardware_sale import app as application
