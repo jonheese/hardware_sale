@@ -6,7 +6,7 @@ from datetime import datetime, timedelta
 from common import app, query_db, get_sale_name_by_sale_id, get_device_name_by_device_id, get_sale_date_by_sale_id, \
                    is_admin, add_new_admin, get_extended_device_details_by_sale_device_id, get_user_id_by_user_email, \
                    get_sale_details_by_sale_id, get_device_details_by_device_id, generate_uuid, send_email, get_sale_device_id, \
-                   insert_to_db, check_auth, get_device_name_and_sale_name_by_sale_device_id, delete_from_db
+                   insert_to_db, check_auth, get_device_name_and_sale_name_by_sale_device_id, delete_from_db, get_hash_of_project
 
 
 @app.route('/')
@@ -14,7 +14,7 @@ def show_active_sales():
     sales = query_db('select sale_id, sale_name, sale_date, active from tbl_sale where active=1')
     if len(sales) == 1:
         return redirect(url_for('show_sale', sale_id=sales[0][0]))
-    return render_template('show_active_sales.html', sales=sales)
+    return render_template('show_active_sales.html', sales=sales,projecthash=get_hash_of_project())
 
 
 @app.route('/sale/<int:sale_id>')
@@ -22,7 +22,7 @@ def show_sale(sale_id):
     sale_name = get_sale_name_by_sale_id(sale_id)
     sale_date = query_db("select sale_date from tbl_sale where sale_id=%s" % sale_id)[0][0]
     sale_details = query_db('select sd.device_id, sd.quantity, d.device_name, d.device_description, t.type_name, count(user_sale_device_id), d.price from tbl_sale_device sd join tbl_device d on sd.device_id=d.device_id join tbl_type t on d.type_id=t.type_id left join tbl_user_sale_device usd on usd.sale_device_id=sd.sale_device_id where sd.sale_id=%s group by device_id' % sale_id)
-    return render_template('show_sale_details.html', sale_id=sale_id,sale_name=sale_name,sale_details=sale_details,sale_date=sale_date)
+    return render_template('show_sale_details.html', sale_id=sale_id,sale_name=sale_name,sale_details=sale_details,sale_date=sale_date,projecthash=get_hash_of_project())
 
 
 @app.route('/bucket/<int:sale_id>/<int:device_id>')
@@ -31,7 +31,7 @@ def request_add_to_bucket(sale_id, device_id):
     sale_name = get_sale_name_by_sale_id(sale_id)
     sale_date = get_sale_date_by_sale_id(sale_id)
     close_date = sale_date + timedelta(hours=24)
-    return render_template('request_add_to_bucket.html', sale_id=sale_id,sale_name=sale_name,device_id=device_id,device_name=device_name,sale_date=sale_date,close_date=close_date)
+    return render_template('request_add_to_bucket.html', sale_id=sale_id,sale_name=sale_name,device_id=device_id,device_name=device_name,sale_date=sale_date,close_date=close_date,projecthash=get_hash_of_project())
 
 
 @app.route('/add_admin', methods=['POST'])
@@ -61,7 +61,7 @@ def sale_report(sale_id):
         for user_email in user_emails:
             user_names.append(' '.join(map(str.capitalize, user_email[0].split('@')[0].split('.'))))
         sale_reports.append((device_details, user_names))
-    return render_template('sale_report.html', sale_reports=sale_reports, sale_name=sale_name)
+    return render_template('sale_report.html', sale_reports=sale_reports, sale_name=sale_name,projecthash=get_hash_of_project())
 
 
 @app.route('/confirm_email', methods=['POST'])
@@ -83,7 +83,7 @@ def confirm_email():
     (device_name, device_description, price) = get_device_details_by_device_id(device_id)
     uuid = generate_uuid()
 
-    send_email(render_template('confirm_email.html', sale_name=sale_name, sale_date=sale_date, device_name=device_name, device_description=device_description, price=price, sale_id=sale_id, uuid=uuid), user_email)
+    send_email(render_template('confirm_email.html', sale_name=sale_name, sale_date=sale_date, device_name=device_name, device_description=device_description, price=price, sale_id=sale_id, uuid=uuid), user_email,projecthash=get_hash_of_project())
 
     sale_device_id = get_sale_device_id(device_id, sale_id)
     query = "insert into tbl_user_uuid(user_id, uuid, sale_device_id) values(%s, '%s', %s)" % (user_id, uuid, sale_device_id)
@@ -121,7 +121,7 @@ def login():
             flash('You were logged in.')
             return redirect(url_for('admin_page'))
         error = 'Invalid username and/or password'
-    return render_template('login.html', error=error)
+    return render_template('login.html', error=error,projecthash=get_hash_of_project())
 
 
 @app.route('/admin')
@@ -130,7 +130,7 @@ def admin_page():
         return redirect(url_for('login'))
     sale_details = query_db("select sale_id, sale_name, sale_date from tbl_sale")
     admin_details = query_db("select admin_id, admin_name, admin_email from tbl_admin")
-    return render_template('admin_page.html', sale_details=sale_details, admin_details=admin_details)
+    return render_template('admin_page.html', sale_details=sale_details, admin_details=admin_details,projecthash=get_hash_of_project())
 
 
 @app.route('/add_sale', methods=['POST'])
@@ -147,7 +147,7 @@ def delete_sale(sale_id):
 def edit_sale(sale_id):
     sale_name = get_sale_name_by_sale_id(sale_id)
     sale_details = query_db('select sd.device_id, sd.quantity, d.device_name, d.device_description, t.type_name, count(user_sale_device_id), d.price from tbl_sale_device sd join tbl_device d on sd.device_id=d.device_id join tbl_type t on d.type_id=t.type_id left join tbl_user_sale_device usd on usd.sale_device_id=sd.sale_device_id where sd.sale_id=%s group by device_id' % sale_id)
-    return render_template('edit_sale.html', sale_id=sale_id,sale_name=sale_name,sale_details=sale_details)
+    return render_template('edit_sale.html', sale_id=sale_id,sale_name=sale_name,sale_details=sale_details,projecthash=get_hash_of_project())
 
 
 @app.route('/show_bucket/<int:sale_id>/<int:device_id>')
@@ -155,7 +155,7 @@ def show_bucket(sale_id, device_id):
     bucket_members = query_db("select u.user_id, u.user_email from tbl_user u join tbl_user_sale_device usd on usd.user_id = u.user_id join tbl_sale_device sd on sd.sale_device_id = usd.sale_device_id where sd.sale_id = %s and sd.device_id = %s order by u.user_email" % (sale_id, device_id))
     sale_name = get_sale_name_by_sale_id(sale_id) 
     device_name = get_device_name_by_device_id(device_id)
-    return render_template('show_bucket.html', sale_id=sale_id,device_name=device_name,sale_name=sale_name,bucket_members=bucket_members)
+    return render_template('show_bucket.html', sale_id=sale_id,device_name=device_name,sale_name=sale_name,bucket_members=bucket_members,projecthash=get_hash_of_project())
 
 
 @app.route('/remove_device_from_sale/<int:sale_id>/<int:device_id>')
@@ -165,7 +165,7 @@ def remove_device_from_sale(sale_id, device_id, methods=['POST','GET']):
         delete_from_db("delete from tbl_sale_device where sale_device_id=%s" % sale_device_id)
         return redirect( url_for('show_sale', sale_id=sale_id))
     message = "Are you sure you want to remove the %s from %s?" % (get_device_name_by_device_id(device_id), get_sale_name_by_sale_id(sale_id))
-    return render_template('confirm_delete.html', message=message,name1="sale_id",value1=sale_id,name2="device_id",value2=device_id)
+    return render_template('confirm_delete.html', message=message,name1="sale_id",value1=sale_id,name2="device_id",value2=device_id,projecthash=get_hash_of_project())
 
 
 @app.route('/logout')
