@@ -83,7 +83,7 @@ def confirm_email():
     (device_name, device_description, price) = get_device_details_by_device_id(device_id)
     uuid = generate_uuid()
 
-    send_email(render_template('confirm_email.html', sale_name=sale_name, sale_date=sale_date, device_name=device_name, device_description=device_description, price=price, sale_id=sale_id, uuid=uuid), user_email,projecthash=get_hash_of_project())
+    send_email(render_template('confirm_email.html', sale_name=sale_name, sale_date=sale_date, device_name=device_name, device_description=device_description, price=price, sale_id=sale_id, uuid=uuid), user_email)
 
     sale_device_id = get_sale_device_id(device_id, sale_id)
     query = "insert into tbl_user_uuid(user_id, uuid, sale_device_id) values(%s, '%s', %s)" % (user_id, uuid, sale_device_id)
