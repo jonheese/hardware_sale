@@ -36,7 +36,7 @@ def run_sale(sale_id):
                     # Pop the random buyer out of 'entrants' and append him to the 'chosen_buyers' list
                     chosen_buyers.append(entrants.pop(chosen_buyer_index))
                 # Give the unselected buyers the bad news
-                notify_buyers(False, entrants, sale_id, device_id)
+                notify_buyers(False, entrants, sale_id, device_id, sale_device_id)
             else:
                 # Don't bother picking names out of the hat if there are more (or the same number of) devices on hand than names
                 debug("      We don't need to go to a random selection process")
