@@ -58,7 +58,7 @@ def notify_buyers(success, buyers, sale_id, device_id, sale_device_id):
         if success:
             close_date = sale_date.replace(hour=17,minute=00) + timedelta(hours=24)
             send_email(render_template('notify_success_buyer.html', sale_name=sale_name, sale_date=sale_date, device_name=device_name, device_description=device_description, price=price, close_date=close_date), user_email)
-            update_db("update tbl_user_sale_device set won=1 where sale_device_id=%s" % sale_device_id)
+            update_db("update tbl_user_sale_device set won=1 where user_id=%s and sale_device_id=%s" % (user_id, sale_device_id))
         else:
             send_email(render_template('notify_failed_buyer.html', sale_name=sale_name, sale_date=sale_date, device_name=device_name, device_description=device_description, price=price), user_email)
 
