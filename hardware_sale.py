@@ -6,7 +6,8 @@ from datetime import datetime, timedelta
 from common import app, query_db, get_sale_name_by_sale_id, get_device_name_by_device_id, get_sale_date_by_sale_id, \
                    is_admin, add_new_admin, get_extended_device_details_by_sale_device_id, get_user_id_by_user_email, \
                    get_sale_details_by_sale_id, get_device_details_by_device_id, generate_uuid, send_email, get_sale_device_id, \
-                   insert_to_db, check_auth, get_device_name_and_sale_name_by_sale_device_id, delete_from_db, get_hash_of_project
+                   insert_to_db, check_auth, get_device_name_and_sale_name_by_sale_device_id, delete_from_db, get_hash_of_project, \
+                   get_bucket_list, debug
 
 
 @app.route('/')
@@ -79,7 +80,7 @@ def confirm_email():
         sale_name = get_sale_name_by_sale_id(sale_id)
         flash("There is already an entry for you under the bucket for a %s in %s" % (device_name, sale_name), "error")
         return redirect(url_for('show_sale', sale_id=sale_id))
-    (sale_name, sale_date) = get_sale_details_by_sale_id(sale_id)[1:3]
+    (sale_name, sale_date) = get_sale_details_by_sale_id(sale_id)
     (device_name, device_description, price) = get_device_details_by_device_id(device_id)
     uuid = generate_uuid()
 
@@ -108,6 +109,21 @@ def confirm_bucket(sale_id, uuid):
     finally:
         delete_from_db("delete from tbl_user_uuid where uuid='%s'" % uuid)
         return redirect(url_for('show_sale', sale_id=sale_id))
+
+
+@app.route('/bucket_list/<sale_id>', methods=['GET', 'POST'])
+def request_bucket_list(sale_id):
+    if request.method == 'POST':
+        user_email = request.form['user_email']
+        items = get_bucket_list(user_email, sale_id)
+        (sale_name, sale_date) = get_sale_details_by_sale_id(sale_id)
+        send_email(render_template('send_bucket_list.html', items=items,sale_name=sale_name,sale_date=sale_date), user_email)
+        flash("Your bucket list will be sent to %s" % user_email)
+        return redirect(url_for('show_sale', sale_id=sale_id))
+    else:
+        sale_name = get_sale_name_by_sale_id(sale_id)
+        return render_template('request_bucket_list.html', sale_name=sale_name,projecthash=get_hash_of_project())
+
 
 
 @app.route('/login', methods=['GET', 'POST'])

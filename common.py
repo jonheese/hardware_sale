@@ -122,7 +122,7 @@ def get_user_email_by_user_id(user_id):
 
 
 def get_sale_details_by_sale_id(sale_id):
-    sale_details = query_db("select sale_id, sale_name, sale_date from tbl_sale where sale_id=%s" % sale_id)
+    sale_details = query_db("select sale_name, sale_date from tbl_sale where sale_id=%s" % sale_id)
     return sale_details[0]
 
 
@@ -167,6 +167,12 @@ def check_auth(admin_name, plaintext_password):
         if hashpw(plaintext_password.encode('UTF_8'), hashed_password.encode('UTF_8')).decode() == hashed_password:
             return True
     return False
+
+
+def get_bucket_list(user_email, sale_id):
+    user_id = get_user_id_by_user_email(user_email)
+    items = query_db("select d.device_name from tbl_device d join tbl_sale_device sd on d.device_id=sd.device_id join tbl_user_sale_device usd on sd.sale_device_id=usd.sale_device_id where sd.sale_id=%s and usd.user_id=%s" % (sale_id, user_id))
+    return items
 
 
 def get_hash_of_project():

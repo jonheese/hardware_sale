@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+{% block body %}
+<center><h2>Request bucket list for '{{ sale_name }}'</h2></center>
+  <form method='POST'>
+    <table border=0 cellpadding='5' width='100%'>
+      <tr><td width='350'>Please enter your <b>viawest.com</b> email address:</td><td><input type='text' name='user_email' /></tr>
+      <tr><td colspan='2'>Your bucket list will be emailed to you</td></tr>
+      <tr><td>&nbsp;</td><td align='left'><input type='submit' value='Send It' /></td></tr>
+    </table>
+  </form>
+{% endblock %}
