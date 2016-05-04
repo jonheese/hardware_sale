@@ -52,7 +52,7 @@ def notify_buyers(success, buyers, sale_id, device_id, sale_device_id):
     for buyer in buyers:
         user_id = buyer[0]
         debug("      Notifying buyer %s, success: %s" % (user_id, success))
-        (sale_name, sale_date) = get_sale_details_by_sale_id(sale_id)[1:3]
+        (sale_name, sale_date) = get_sale_details_by_sale_id(sale_id)
         (device_name, device_description, price) = get_device_details_by_device_id(device_id)
         user_email = get_user_email_by_user_id(user_id)
         if success:

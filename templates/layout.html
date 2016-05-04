@@ -16,5 +16,13 @@
     <div class="{{ category }}">{{ message }}</div>
   {% endfor %}
   {% block body %}{% endblock %}
-  <div class='footer'>All source code is available for review in <a href='https://gitlab.inetu.org/jheese/hardware_sale/'>Gitlab</a> - Checksum: {{ projecthash }}</div>
+  <div class='footer'>
+    <table width='100%'>
+      {% if sale_id %}
+      <tr><td>Click <a href='/bucket_list/{{ sale_id }}'>here</a> to get a list of items you've entered for in this sale</td></tr>
+      {% endif %}
+      <tr><td>All source code is available for review in <a href='https://gitlab.inetu.org/jheese/hardware_sale/'>Gitlab</a></td></tr>
+      <tr><td>Checksum: {{ projecthash }}</td></tr>
+    </table>
+ </div>
 </div>
