@@ -90,10 +90,10 @@ def get_sale_device_id(device_id, sale_id):
     return query_db("select sale_device_id from tbl_sale_device where device_id=%s and sale_id=%s" % (device_id, sale_id))[0][0]
 
 
-def send_email(html, user_email):
+def send_email(html, user_email, subject):
     msg = MIMEMultipart('alternative')
     part1 = MIMEText(html, 'html')
-    msg['Subject'] = 'INetU Hardware Sale Email Verification'
+    msg['Subject'] = "INetU Hardware Sale: %s" % subject
     msg['From'] = app.config['LOCAL_SENDER']
     msg['To'] = user_email
     msg.attach(part1)

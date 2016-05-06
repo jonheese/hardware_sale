@@ -84,7 +84,7 @@ def confirm_email():
     (device_name, device_description, price) = get_device_details_by_device_id(device_id)
     uuid = generate_uuid()
 
-    send_email(render_template('confirm_email.html', sale_name=sale_name, sale_date=sale_date, device_name=device_name, device_description=device_description, price=price, sale_id=sale_id, uuid=uuid), user_email)
+    send_email(render_template('confirm_email.html', sale_name=sale_name, sale_date=sale_date, device_name=device_name, device_description=device_description, price=price, sale_id=sale_id, uuid=uuid), user_email, 'Email Confirmation')
 
     sale_device_id = get_sale_device_id(device_id, sale_id)
     query = "insert into tbl_user_uuid(user_id, uuid, sale_device_id) values(%s, '%s', %s)" % (user_id, uuid, sale_device_id)
@@ -117,7 +117,7 @@ def request_bucket_list(sale_id):
         user_email = request.form['user_email']
         items = get_bucket_list(user_email, sale_id)
         (sale_name, sale_date) = get_sale_details_by_sale_id(sale_id)
-        send_email(render_template('send_bucket_list.html', items=items,sale_name=sale_name,sale_date=sale_date), user_email)
+        send_email(render_template('send_bucket_list.html', items=items,sale_name=sale_name,sale_date=sale_date), user_email, 'Bucket List')
         flash("Your bucket list will be sent to %s" % user_email)
         return redirect(url_for('show_sale', sale_id=sale_id))
     else:
