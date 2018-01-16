@@ -7,7 +7,7 @@ from common import app, query_db, get_sale_name_by_sale_id, get_device_name_by_d
                    is_admin, add_new_admin, get_extended_device_details_by_sale_device_id, get_user_id_by_user_email, \
                    get_sale_details_by_sale_id, get_device_details_by_device_id, generate_uuid, send_email, get_sale_device_id, \
                    insert_to_db, check_auth, get_device_name_and_sale_name_by_sale_device_id, delete_from_db, get_hash_of_project, \
-                   get_bucket_list, debug
+                   get_bucket_list, get_base_uri, debug
 
 
 @app.route('/')
@@ -70,8 +70,8 @@ def confirm_email():
     user_email = request.form['user_email']
     device_id = request.form['device_id']
     sale_id = request.form['sale_id']
-    if "viawest.com" not in user_email:
-        flash("You must use your viawest.com email address.", "error")
+    if not user_email.endswith("@viawest.com":
+        flash("You must use your @viawest.com email address.", "error")
         return redirect(url_for('show_sale', sale_id=sale_id))
     user_id = get_user_id_by_user_email(user_email)
     user_already_in_bucket = query_db("select count(usd.user_id) from tbl_user_sale_device usd join tbl_sale_device sd on usd.sale_device_id=sd.sale_device_id where sd.sale_id=%s and sd.device_id=%s and usd.user_id=%s" % (sale_id, device_id, user_id))[0][0]
@@ -83,8 +83,9 @@ def confirm_email():
     (sale_name, sale_date) = get_sale_details_by_sale_id(sale_id)
     (device_name, device_description, price) = get_device_details_by_device_id(device_id)
     uuid = generate_uuid()
+    baseuri = get_base_uri()
 
-    send_email(render_template('confirm_email.html', sale_name=sale_name, sale_date=sale_date, device_name=device_name, device_description=device_description, price=price, sale_id=sale_id, uuid=uuid), user_email, 'Email Confirmation')
+    send_email(render_template('confirm_email.html', sale_name=sale_name, sale_date=sale_date, device_name=device_name, device_description=device_description, price=price, sale_id=sale_id, uuid=uuid, baseuri=baseuri), user_email, 'Email Confirmation')
 
     sale_device_id = get_sale_device_id(device_id, sale_id)
     query = "insert into tbl_user_uuid(user_id, uuid, sale_device_id) values(%s, '%s', %s)" % (user_id, uuid, sale_device_id)

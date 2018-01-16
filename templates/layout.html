@@ -1,8 +1,8 @@
 <!doctype html>
-<title>INetU Hardware Sale</title>
+<title>Peak10+ViaWest Hardware Sale</title>
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 <div class="page">
-  <table cellspacing='5' class='header'><tr><td><a href='/'><img src="{{ url_for('static', filename='Logo_40.png') }}" /></a></td>
+  <table cellspacing='5' class='header'><tr><td><a href='/'><img height='80px' src="{{ url_for('static', filename='Logo_40.png') }}" /></a></td>
   <td><a class='plain' href='/'><h1>Hardware Sale</h1></a></td></tr></table>
   <div class="metanav">
     <a href='/'>home</a> |
@@ -21,7 +21,7 @@
       {% if sale_id %}
       <tr><td>Click <a href='/bucket_list/{{ sale_id }}'>here</a> to get a list of items you've entered for in this sale</td></tr>
       {% endif %}
-      <tr><td>All source code is available for review in <a href='https://gitlab.inetu.org/jheese/hardware_sale/'>Gitlab</a></td></tr>
+      <tr><td>All source code is available for review in <a href='https://code.viawest.net/jon.heese/hardware_sale/'>Gitlab</a></td></tr>
       <tr><td>Checksum: {{ projecthash }}</td></tr>
     </table>
  </div>

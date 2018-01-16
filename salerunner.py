@@ -86,4 +86,5 @@ if __name__ == '__main__':
 
             active_sales = query_db("select sale_id from tbl_sale where active=1 and sale_date<=now()")
             for sale in active_sales:
+		debug("Running sale: %s" % sale)
                 run_sale(sale[0])

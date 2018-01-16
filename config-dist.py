@@ -7,5 +7,6 @@ params = dict(
     HOSTNAME = 'localhost',
     LOCAL_SENDER = 'email@address.com',
     SALE_RUNNER_INTERVAL = 5,
-    SECRET_KEY = 'sEcReT-KeY'
+    SECRET_KEY = 'sEcReT-KeY',
+    BASE_URI = 'hardware-sale.mydomain.net'
 )

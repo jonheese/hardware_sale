@@ -1,6 +1,6 @@
-## INetU Hardware Sale app
+## Peak10+ViaWest Hardware Sale app
 
-This app runs the INetU Hardware Sale.  It has two major components:
+This app runs the Peak10+ViaWest Hardware Sale.  It has two major components:
 
  - hardware_sale.py - WSGI webapp for processing user and admin requests (the web GUI)
  - salerunner.py - Python app that runs in the background waiting for a sale to expire, at which point it does all of the things necessary to make the sale a reality (the daemon)

@@ -1,10 +1,10 @@
 [Unit]
-Description=INetU Hardware Sale Runner
+Description=Peak10+ViaWest Hardware Sale Runner
 After=network.target
 
 [Service]
 Type=simple
-EnvironmentFile=/etc/sysconfig/hardware_sale_runner
+EnvironmentFile=/etc/sysconfig/hardware_sale_runner-test
 ExecStart=/usr/bin/python $OPTIONS
 KillSignal=SIGINT
 

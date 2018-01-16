@@ -17,7 +17,7 @@
       </div>
       <div class='admin_block three-quarters'>
         <h2>Manage Sales</h2>
-        <table cellspacing='10' width='100%' class='datatable'>
+        <table cellspacing='10' cellpadding='5' width='100%' class='datatable'>
           <tr><th align='left'>Sale Name:</th><th align='left'>Sale Date:</th><th></th><th></th><th></th></tr>
           {% for sale in sale_details %}
             <tr><td>{{ sale[1] }}</td><td>{{ sale[2] }}</td><td><a href='{{ url_for('edit_sale', sale_id=sale[0]) }}'>Edit</a></td><td><a href='{{ url_for('sale_report', sale_id=sale[0]) }}'>Report</a></td></tr>
@@ -43,7 +43,7 @@
       </div>
       <div class='admin_block three-quarters'>
         <h2>Manage Admins</h2>
-        <table cellspacing='10' width='100%' class='datatable'>
+        <table cellspacing='10' cellpadding='5' width='100%' class='datatable'>
           <tr><th align='left'>Admin Name:</th><th align='left'>Admin Email:</th><th></th><th></th><th></th></tr>
           {% for admin in admin_details %}
             <tr><td>{{ admin[1] }}</td><td>{{ admin[2] }}</td><td><a href='{{ url_for('edit_sale', sale_id=admin[0]) }}'>Edit</a></td><td><a href='{{ url_for('delete_sale', sale_id=admin[0]) }}'>Delete</a></td></tr>

@@ -93,7 +93,7 @@ def get_sale_device_id(device_id, sale_id):
 def send_email(html, user_email, subject):
     msg = MIMEMultipart('alternative')
     part1 = MIMEText(html, 'html')
-    msg['Subject'] = "INetU Hardware Sale: %s" % subject
+    msg['Subject'] = "Peak10+ViaWest Hardware Sale: %s" % subject
     msg['From'] = app.config['LOCAL_SENDER']
     msg['To'] = user_email
     msg.attach(part1)
@@ -173,6 +173,10 @@ def get_bucket_list(user_email, sale_id):
     user_id = get_user_id_by_user_email(user_email)
     items = query_db("select d.device_name from tbl_device d join tbl_sale_device sd on d.device_id=sd.device_id join tbl_user_sale_device usd on sd.sale_device_id=usd.sale_device_id where sd.sale_id=%s and usd.user_id=%s" % (sale_id, user_id))
     return items
+
+
+def get_base_uri():
+    return app.config['BASE_URI']
 
 
 def get_hash_of_project():
