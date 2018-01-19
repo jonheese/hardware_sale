@@ -10,7 +10,7 @@ from random import randint
 import signal
 from common import debug, app, query_db, get_sale_name_by_sale_id, get_sale_details_by_sale_id, \
                    get_user_email_by_user_id, get_device_details_by_device_id, send_email, update_db, \
-                   deactivate_sale
+                   deactivate_sale, get_company_name
 
 
 def run_sale(sale_id):
@@ -55,12 +55,13 @@ def notify_buyers(success, buyers, sale_id, device_id, sale_device_id):
         (sale_name, sale_date) = get_sale_details_by_sale_id(sale_id)
         (device_name, device_description, price) = get_device_details_by_device_id(device_id)
         user_email = get_user_email_by_user_id(user_id)
+	company_name = get_company_name()
         if success:
             close_date = sale_date.replace(hour=17,minute=00) + timedelta(hours=24)
-            send_email(render_template('notify_success_buyer.html', sale_name=sale_name, sale_date=sale_date, device_name=device_name, device_description=device_description, price=price, close_date=close_date), user_email, 'Success!')
+            send_email(render_template('notify_success_buyer.html', sale_name=sale_name, sale_date=sale_date, device_name=device_name, device_description=device_description, price=price, close_date=close_date, company_name=company_name), user_email, 'Success!')
             update_db("update tbl_user_sale_device set won=1 where user_id=%s and sale_device_id=%s" % (user_id, sale_device_id))
         else:
-            send_email(render_template('notify_failed_buyer.html', sale_name=sale_name, sale_date=sale_date, device_name=device_name, device_description=device_description, price=price), user_email, 'Sorry :(')
+            send_email(render_template('notify_failed_buyer.html', sale_name=sale_name, sale_date=sale_date, device_name=device_name, device_description=device_description, price=price, company_name=company_name), user_email, 'Sorry :(')
 
 
 def signal_handler(signal, frame):

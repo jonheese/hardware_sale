@@ -1,5 +1,5 @@
 [Unit]
-Description=Peak10+ViaWest Hardware Sale Runner
+Description=Flexential Hardware Sale Runner
 After=network.target
 
 [Service]

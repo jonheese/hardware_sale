@@ -1,6 +1,8 @@
+@font-face	{ font-family: 'NexaBold'; src: url("/static/NexaBold.otf") format("opentype"); }
+
 body            { font-family: sans-serif; background: #eee; -webkit-print-color-adjust: exact; }
-a, h1, h2       { color: #066CAA; }
-h1, h2          { font-family: 'Trebuchet MS', 'IrisUPC', sans-serif; margin: 0; }
+a, h1, h2       { color: #000000; }
+h1, h2          { font-family: 'NexaBold', 'Trebuchet MS', 'IrisUPC', sans-serif; margin: 0; }
 h1              { font-size: 2.2em;}
 h2              { font-size: 1.2em; }
 table.datatable tr:nth-child(even) { background-color: #dcdcdc; }

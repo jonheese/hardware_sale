@@ -93,7 +93,7 @@ def get_sale_device_id(device_id, sale_id):
 def send_email(html, user_email, subject):
     msg = MIMEMultipart('alternative')
     part1 = MIMEText(html, 'html')
-    msg['Subject'] = "Peak10+ViaWest Hardware Sale: %s" % subject
+    msg['Subject'] = "%s Hardware Sale: %s" % (app.config['COMPANY_NAME'], subject)
     msg['From'] = app.config['LOCAL_SENDER']
     msg['To'] = user_email
     msg.attach(part1)
@@ -177,6 +177,10 @@ def get_bucket_list(user_email, sale_id):
 
 def get_base_uri():
     return app.config['BASE_URI']
+
+
+def get_company_name():
+    return app.config['COMPANY_NAME']
 
 
 def get_hash_of_project():

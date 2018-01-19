@@ -7,7 +7,7 @@ from common import app, query_db, get_sale_name_by_sale_id, get_device_name_by_d
                    is_admin, add_new_admin, get_extended_device_details_by_sale_device_id, get_user_id_by_user_email, \
                    get_sale_details_by_sale_id, get_device_details_by_device_id, generate_uuid, send_email, get_sale_device_id, \
                    insert_to_db, check_auth, get_device_name_and_sale_name_by_sale_device_id, delete_from_db, get_hash_of_project, \
-                   get_bucket_list, get_base_uri, debug
+                   get_bucket_list, get_base_uri, get_company_name, debug
 
 
 @app.route('/')
@@ -70,7 +70,7 @@ def confirm_email():
     user_email = request.form['user_email']
     device_id = request.form['device_id']
     sale_id = request.form['sale_id']
-    if not user_email.endswith("@viawest.com":
+    if not user_email.endswith("@viawest.com"):
         flash("You must use your @viawest.com email address.", "error")
         return redirect(url_for('show_sale', sale_id=sale_id))
     user_id = get_user_id_by_user_email(user_email)
@@ -84,9 +84,12 @@ def confirm_email():
     (device_name, device_description, price) = get_device_details_by_device_id(device_id)
     uuid = generate_uuid()
     baseuri = get_base_uri()
+    company_name = get_company_name()
 
-    send_email(render_template('confirm_email.html', sale_name=sale_name, sale_date=sale_date, device_name=device_name, device_description=device_description, price=price, sale_id=sale_id, uuid=uuid, baseuri=baseuri), user_email, 'Email Confirmation')
+    send_email(render_template('confirm_email.html', sale_name=sale_name, sale_date=sale_date, device_name=device_name, device_description=device_description, price=price, sale_id=sale_id, uuid=uuid, baseuri=baseuri, company_name=company_name), user_email, 'Email Confirmation')
 
+    print "device_id = %s" % device_id
+    print "sale_id = %s" % sale_id
     sale_device_id = get_sale_device_id(device_id, sale_id)
     query = "insert into tbl_user_uuid(user_id, uuid, sale_device_id) values(%s, '%s', %s)" % (user_id, uuid, sale_device_id)
     insert_to_db(query)
@@ -118,7 +121,8 @@ def request_bucket_list(sale_id):
         user_email = request.form['user_email']
         items = get_bucket_list(user_email, sale_id)
         (sale_name, sale_date) = get_sale_details_by_sale_id(sale_id)
-        send_email(render_template('send_bucket_list.html', items=items,sale_name=sale_name,sale_date=sale_date), user_email, 'Bucket List')
+        company_name = get_company_name()
+        send_email(render_template('send_bucket_list.html', items=items,sale_name=sale_name,sale_date=sale_date, company_name=company_name), user_email, 'Bucket List')
         flash("Your bucket list will be sent to %s" % user_email)
         return redirect(url_for('show_sale', sale_id=sale_id))
     else:
