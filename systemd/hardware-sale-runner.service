@@ -4,7 +4,7 @@ After=network.target
 
 [Service]
 Type=simple
-EnvironmentFile=/etc/sysconfig/hardware_sale_runner-test
+EnvironmentFile=/etc/sysconfig/hardware_sale_runner
 ExecStart=/usr/bin/python $OPTIONS
 KillSignal=SIGINT
 

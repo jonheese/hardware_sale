@@ -1,1 +1,1 @@
-OPTIONS="/var/www/hardware_sale_test/salerunner.py /var/log/hardware_sale_test/salerunner.log"
+OPTIONS="/var/www/hardware_sale/salerunner.py /var/log/hardware_sale/salerunner.log"

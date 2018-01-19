@@ -16,10 +16,12 @@ echo "Installing hardware_sale_runner service..."
 echo "Copying base sysconfig file..."
 sed -i 's/hardware_sale/hardware_sale_test/g' sysconfig/hardware_sale_runner
 cp sysconfig/hardware_sale_runner /etc/sysconfig/hardware_sale_runner-test
+sed -i 's/hardware_sale_test/hardware_sale/g' sysconfig/hardware_sale_runner
 
 echo "Copying service file to systemd directory..."
 sed -i 's/hardware_sale_runner/hardware_sale_runner-test/g' systemd/hardware-sale-runner.service
 cp systemd/hardware-sale-runner.service /usr/lib/systemd/system/hardware-sale-runner-test.service
+sed -i 's/hardware_sale_runner-test/hardware_sale_runner/g' systemd/hardware-sale-runner.service
 
 echo "Making log directory..."
 mkdir /var/log/hardware_sale_test
