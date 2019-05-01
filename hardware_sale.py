@@ -70,8 +70,8 @@ def confirm_email():
     user_email = request.form['user_email']
     device_id = request.form['device_id']
     sale_id = request.form['sale_id']
-    if not user_email.endswith("@viawest.com"):
-        flash("You must use your @viawest.com email address.", "error")
+    if not user_email.endswith("@flexential.com"):
+        flash("You must use your @flexential.com email address.", "error")
         return redirect(url_for('show_sale', sale_id=sale_id))
     user_id = get_user_id_by_user_email(user_email)
     user_already_in_bucket = query_db("select count(usd.user_id) from tbl_user_sale_device usd join tbl_sale_device sd on usd.sale_device_id=sd.sale_device_id where sd.sale_id=%s and sd.device_id=%s and usd.user_id=%s" % (sale_id, device_id, user_id))[0][0]
