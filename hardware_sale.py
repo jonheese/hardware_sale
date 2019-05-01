@@ -22,7 +22,7 @@ def show_active_sales():
 def show_sale(sale_id):
     sale_name = get_sale_name_by_sale_id(sale_id)
     sale_date = query_db("select sale_date from tbl_sale where sale_id=%s" % sale_id)[0][0]
-    sale_details = query_db('select sd.device_id, sd.quantity, d.device_name, d.device_description, t.type_name, count(user_sale_device_id), d.price from tbl_sale_device sd join tbl_device d on sd.device_id=d.device_id join tbl_type t on d.type_id=t.type_id left join tbl_user_sale_device usd on usd.sale_device_id=sd.sale_device_id where sd.sale_id=%s group by device_id' % sale_id)
+    sale_details = query_db('select sd.device_id, sd.quantity, d.device_name, d.device_description, t.type_name, count(user_sale_device_id), d.price from tbl_sale_device sd join tbl_device d on sd.device_id=d.device_id join tbl_type t on d.type_id=t.type_id left join tbl_user_sale_device usd on usd.sale_device_id=sd.sale_device_id where sd.sale_id=%s group by device_id order by t.type_name, d.device_name' % sale_id)
     return render_template('show_sale_details.html', sale_id=sale_id,sale_name=sale_name,sale_details=sale_details,sale_date=sale_date,projecthash=get_hash_of_project())
 
 
