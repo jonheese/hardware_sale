@@ -8,9 +8,9 @@
   <div class="metanav">
     <a href='/'>home</a> |
   {% if not session.logged_in %}
-    <a href="{{ url_for('login') }}">log in</a>
+    <a href="{{ url_for('login') }}">admin</a>
   {% else %}
-    <a href='{{ url_for('admin_page') }}'>admin</a> | <a href="{{ url_for('logout') }}">log out</a>
+    <a href='{{ url_for('admin_page') }}'>panel</a> | <a href="{{ url_for('logout') }}">log out</a>
   {% endif %}
   </div>
   {% for category,message in get_flashed_messages(with_categories=true) %}
