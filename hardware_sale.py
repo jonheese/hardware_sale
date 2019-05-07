@@ -50,7 +50,7 @@ def add_admin():
 
 @app.route('/sale_report/<int:sale_id>')
 def sale_report(sale_id):
-    sale_devices = query_db("select sale_device_id from tbl_sale_device where sale_id=%s" % sale_id)
+    sale_devices = query_db("select sd.sale_device_id from tbl_sale_device sd join tbl_device d on d.device_id = sd.device_id join tbl_type t on t.type_id = d.type_id where sale_id=%s order by t.type_name, d.device_name" % sale_id)
     sale_name = get_sale_name_by_sale_id(sale_id)
     sale_reports = []
     for sale_device in sale_devices:
@@ -167,7 +167,7 @@ def delete_sale(sale_id):
 @app.route('/edit_sale/<int:sale_id>')
 def edit_sale(sale_id):
     sale_name = get_sale_name_by_sale_id(sale_id)
-    sale_details = query_db('select sd.device_id, sd.quantity, d.device_name, d.device_description, t.type_name, count(user_sale_device_id), d.price from tbl_sale_device sd join tbl_device d on sd.device_id=d.device_id join tbl_type t on d.type_id=t.type_id left join tbl_user_sale_device usd on usd.sale_device_id=sd.sale_device_id where sd.sale_id=%s group by device_id' % sale_id)
+    sale_details = query_db('select sd.device_id, sd.quantity, d.device_name, d.device_description, t.type_name, count(user_sale_device_id), d.price from tbl_sale_device sd join tbl_device d on sd.device_id=d.device_id join tbl_type t on d.type_id=t.type_id left join tbl_user_sale_device usd on usd.sale_device_id=sd.sale_device_id where sd.sale_id=%s group by device_id order by t.type_name, d.device_name' % sale_id)
     return render_template('edit_sale.html', sale_id=sale_id,sale_name=sale_name,sale_details=sale_details,projecthash=get_hash_of_project())
 
 
